@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Logs</title>
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #0a192f; /* Dark Blue */
+            color: #e0e0e0; /* Light Gray */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        .admin-header {
+            background: #172a45; /* Darker Blue */
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #1b2b47;
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .back-btn {
+            background: #1b2b47;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #2c3e60;
+        }
+
+        /* Logs Container */
+        .logs-container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+            background: #112240; /* Deep Blue */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #0d1b2a;
+            border-radius: 5px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #1f4068;
+        }
+
+        th {
+            background: #1b2b47;
+            color: white;
+        }
+
+        tr:hover {
+            background: #1f4068;
+        }
+
+        /* No Logs Message */
+        .no-logs {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            color: #ff6b6b; /* Red Accent */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="admin-header">
+        <h1>System Logs</h1>
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </header>
+
+    <!-- Logs Section -->
+    <main class="logs-container">
+        {% if logs %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Event</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.timestamp }}</td>
+                    <td>{{ log.event }}</td>
+                    <td>{{ log.location }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="no-logs">No logs available.</p>
+        {% endif %}
+    </main>
+
+</body>
+</html>

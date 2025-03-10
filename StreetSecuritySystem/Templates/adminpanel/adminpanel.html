@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js"></script>
+    <script src="/static/firebase-config.js" defer></script>
+    <script src="/static/script.js" defer></script>
+    <style>
+        /* Dark Theme */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0A192F;
+            color: #E5E7EB;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Header */
+        .admin-header {
+            width: 100%;
+            background: #1F2937;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #E5E7EB;
+        }
+
+        .nav-menu a, .logout-btn {
+            color: #E5E7EB;
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: 0.3s ease;
+        }
+
+        .nav-menu a:hover, .logout-btn:hover {
+            background: #2D3748;
+        }
+
+        .logout-btn {
+            background: #D90429;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Main Section */
+        .admin-main {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 20px;
+        }
+
+        .section {
+            background: #1F2937;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1, h2 {
+            color: #E5E7EB;
+            border-bottom: 2px solid #4A5568;
+            padding-bottom: 5px;
+        }
+
+        /* Statistics */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .stat-item {
+            background: #2D3748;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 18px;
+            text-align: center;
+            flex: 1;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #4A5568;
+            text-align: center;
+        }
+
+        th {
+            background: #2D3748;
+        }
+
+        tr:nth-child(even) {
+            background: #1F2937;
+        }
+
+        /* Buttons */
+        .approve-btn, .reject-btn, .view-alert {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .approve-btn {
+            background: #28A745;
+            color: white;
+        }
+
+        .reject-btn {
+            background: #D90429;
+            color: white;
+        }
+
+        .view-alert {
+            background: #007BFF;
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background: #218838;
+        }
+
+        .reject-btn:hover {
+            background: #C82333;
+        }
+
+        .view-alert:hover {
+            background: #0056b3;
+        }
+
+        /* Footer */
+        .admin-footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            background: #1F2937;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="logo">Street Security Admin</div>
+        <nav class="nav-menu">
+            <a href="{% url 'admin_dashboard' %}">Dashboard</a>
+            <a href="{% url 'view_logs' %}">Alerts</a>
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </nav>
+    </header>
+
+    <main class="admin-main">
+        <section id="dashboard" class="section">
+            <h1>Welcome, Admin</h1>
+            <p>Overview of the system.</p>
+        </section>
+
+        <section id="alerts" class="section">
+            <h2>View Alerts</h2>
+            <a href="{% url 'view_logs' %}">
+                <button class="view-alert">View Firestore Logs</button>
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="admin-footer">
+        <p>&copy; 2024 Street Security System. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function logout() {
+            firebase.auth().signOut().then(() => {
+                window.location.href = "{% url 'admin_login' %}";
+            }).catch((error) => {
+                console.error("Logout Error:", error);
+            });
+        }
+    </script>
+
+</body>
+</html>

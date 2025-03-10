@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Logs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 80%;
+            margin: auto;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        th {
+            background: #007BFF;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h2>System Logs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Timestamp</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody id="log-table">
+            <!-- Logs will be inserted here dynamically -->
+        </tbody>
+    </table>
+
+    <script>
+        function fetchLogs() {
+            fetch("/api/get-logs/")
+                .then(response => response.json())
+                .then(data => {
+                    let tableBody = document.getElementById("log-table");
+                    tableBody.innerHTML = "";  // Clear table before inserting new data
+
+                    data.logs.forEach(log => {
+                        let row = `<tr>
+                            <td>${log.event}</td>
+                            <td>${log.timestamp}</td>
+                            <td>${log.location}</td>
+                        </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                })
+                .catch(error => console.error("Error fetching logs:", error));
+        }
+
+        // Fetch logs every 5 seconds
+        setInterval(fetchLogs, 5000);
+        fetchLogs();  // Initial fetch
+    </script>
+</body>
+</html>
